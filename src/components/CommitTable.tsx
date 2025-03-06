@@ -10,7 +10,7 @@ interface CommitTableProps {
 }
 
 const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) => {
-  // Loading state with shimmer effect
+  // Loading state with glass-morphism effect
   if (loading) {
     return (
       <div className="rounded-xl glass-morphism overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
@@ -26,7 +26,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
     );
   }
 
-  // Error state
+  // Error state with glass-morphism styling
   if (error) {
     return (
       <div className="rounded-xl glass-morphism overflow-hidden p-8 text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
@@ -35,7 +35,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
     );
   }
 
-  // Empty state
+  // Empty state with glass-morphism styling
   if (!commits.length) {
     return (
       <div className="rounded-xl glass-morphism overflow-hidden p-8 text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
@@ -44,7 +44,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
     );
   }
 
-  // Render commits
+  // Render commits with glass-morphism styling
   return (
     <div className="overflow-hidden rounded-xl glass-morphism animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
       <div className="overflow-x-auto">
