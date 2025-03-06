@@ -60,9 +60,16 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
               <th className="p-6 text-left font-medium text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <Clock className="h-4 w-4" />
-                  <span>Date & Time</span>
+                  <span>Date </span>
                 </div>
               </th>
+              <th className="p-6 text-left font-medium text-muted-foreground">
+                <div className="flex items-center space-x-2">
+                  <Clock className="h-4 w-4" />
+                  <span>Time</span>
+                </div>
+              </th>
+
               <th className="p-6 text-left font-medium text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <File className="h-4 w-4" />
@@ -103,12 +110,15 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
                   </td>
                   <td className="p-6">
                     <div className="font-medium">
-                      {formattedDate}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {formattedTime}
+                      {formattedDate.toLocaleDateString()}
                     </div>
                   </td>
+                  <td className="p-6">
+                    <div className="font-medium">
+                      {formattedDate.toLocaleDateString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </td>
+
                   <td className="p-6">
                     <div className="flex flex-wrap gap-1.5">
                       {(commit.files || []).map((file, fileIndex) => (
