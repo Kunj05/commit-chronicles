@@ -21,6 +21,7 @@ interface CommitChartProps {
   commits: Commit[];
 }
 
+
 export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
   // Process data for Author Commits chart
   const authorData = useMemo(() => {
@@ -43,8 +44,12 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
     
     commits.forEach(commit => {
       const date = new Date(commit.commit.author.date);
-      const dateStr = date.toLocaleDateString();
-      dateMap[dateStr] = (dateMap[dateStr] || 0) + 1;
+      const formattedDate = date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+      dateMap[formattedDate] = (dateMap[formattedDate] || 0) + 1;
     });
     
     return Object.entries(dateMap)
@@ -107,7 +112,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
                 <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.6)' }} />
                 <Bar 
                   dataKey="commits" 
-                  name="Number of Commits" 
+                  name="Commits Frequency" 
                   fill="rgb(59, 130, 246)" 
                   radius={[4, 4, 0, 0]}
                 />
@@ -160,6 +165,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
               </PieChart>
             </ResponsiveContainer>
           </div>
+          
           <div className="mt-4 flex justify-between items-center p-3 bg-blue-500/10 rounded-lg">
             <div className="flex items-center gap-2">
               <ArrowDownIcon className="h-4 w-4 text-blue-400" />
