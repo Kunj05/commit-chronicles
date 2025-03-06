@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const Index = () => {
-  const [repoUrl, setRepoUrl] = useState()
+  const [repoUrl, setRepoUrl] = useState('')
   const [commits, setCommits] = useState<Commit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +45,7 @@ const Index = () => {
     while (true) {
       const response = await fetch(`${apiUrl}?per_page=${perPage}&page=${page}`, {
         headers: {
-          Authorization: `${process.env.Github_token}` ,
+                    Authorization: `${process.env.Github_token}` ,
           Accept: 'application/vnd.github+json',
           'If-Modified-Since': lastModified || '',
         },
@@ -132,6 +132,7 @@ const Index = () => {
                 commits={commits}
                 loading={loading}
                 error={error}
+                repoUrl={repoUrl}
               />:
             <></>
           }

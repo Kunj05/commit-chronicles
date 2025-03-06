@@ -18,10 +18,10 @@ interface CommitTableProps {
   commits: Commit[];
   loading: boolean;
   error: string | null;
+  repoUrl : string;
 }
 
-const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) => {
-  const [repoUrl, setRepoUrl] = useState<string>('');
+const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error,repoUrl }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedAuthor, setSelectedAuthor] = useState<string>('');
   const [searchByMessage, setSearchByMessage] = useState<boolean>(true);
