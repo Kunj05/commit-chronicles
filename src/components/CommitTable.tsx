@@ -100,9 +100,6 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits, loading, error }) =>
                     <div className="font-medium group-hover:text-blue-400 transition-colors">
                       {commit.commit.message}
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {commit.sha.substring(0, 7)}
-                    </div>
                   </td>
                   <td className="p-6">
                     <div className="font-medium">
