@@ -290,7 +290,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                           <Download className="h-4 w-4" /> Export CSV
                         </Button>
                         <Button onClick={() => {
-                          const embedCode = `<iframe src="https://github-commits-viewer.vercel.app/embed?repo=${repoUrl}" width="100%" height="400" frameborder="0"></iframe>`;
+                          const embedCode = `<iframe src="https://commit-chronicles-sigma.vercel.app/embed?repo=${repoUrl}" width="100%" height="400" frameborder="0"></iframe>`;
                           navigator.clipboard.writeText(embedCode);
                           
                         }}>
