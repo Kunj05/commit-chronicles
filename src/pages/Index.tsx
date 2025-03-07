@@ -235,7 +235,7 @@ const Index = () => {
           </div>
         </div>
 
-        {commits.length > 0 || error ? (
+        {commits.length > 0 || error || loading? (
           <CommitTable commits={commits} loading={loading} error={error} repoUrl={repoUrl} />
         ) : (
           <></>
