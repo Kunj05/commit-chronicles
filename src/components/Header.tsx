@@ -8,8 +8,8 @@ const Header: React.FC = () => {
       {/* Sticky points with tooltips, always visible in the top-right corner */}
       <div className="fixed top-4 right-4 flex flex-col space-y-2 z-10">
       
-        <div className="absolute hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 mt-1">
-          Your Access token is never stored
+        <div className="fixed top-4 right-4 bg-red-600 text-white p-3 rounded-md shadow-lg z-50 max-w-xs">
+          <p className="text-sm font-semibold">Use small repo having less commits or branches .</p>
         </div>
       </div>
 
