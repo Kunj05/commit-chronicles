@@ -156,7 +156,7 @@ const Index = () => {
           hasMoreCommits = false;
           continue; // Skip if no commits or branch is invalid
         }
-
+        setLoading(true);
         const commitEdges = history.edges;
         const commitsWithDetails = commitEdges.map((edge: any) => {
           const node = edge.node;
