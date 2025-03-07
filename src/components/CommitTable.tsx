@@ -292,7 +292,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                         <Button onClick={() => {
                           const embedCode = `<iframe src="https://github-commits-viewer.vercel.app/embed?repo=${repoUrl}" width="100%" height="400" frameborder="0"></iframe>`;
                           navigator.clipboard.writeText(embedCode);
-                          alert('Embed code copied to clipboard!');
+                          
                         }}>
                           <Code2 className="h-4 w-4" /> Embed Code
                         </Button>
