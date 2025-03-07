@@ -1,10 +1,19 @@
-
 import React from 'react';
 import { GitBranch } from 'lucide-react';
+import { Tooltip } from "@/components/ui/tooltip"; // Assuming you have a Tooltip component in your UI library
 
 const Header: React.FC = () => {
   return (
-    <header className="w-full animate-fade-in">
+    <header className="w-full animate-fade-in relative">
+      {/* Sticky points with tooltips, always visible in the top-right corner */}
+      <div className="fixed top-4 right-4 flex flex-col space-y-2 z-10">
+      
+        <div className="absolute hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 mt-1">
+          Your Access token is never stored
+        </div>
+      </div>
+
+
       <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="flex flex-col items-center space-y-4">
           <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-600/20 p-3">
