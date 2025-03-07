@@ -79,7 +79,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
 
   const authors = Array.from(new Set(
     commits
-      .map((commit) => commit.author?.login) // Extract author login
+      .map((commit) => commit.commit.author.name) // Extract author login
       .filter((author) => author !== undefined) // Filter out undefined values
   ));    
 
@@ -162,13 +162,13 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="w-full justify-between">
-                          {selectedAuthor || "Select Author"}
+                          {selectedAuthor || "Select User"}
                           <User className="ml-2 h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-[200px] bg-background/95 backdrop-blur-sm border-white/10">
+                      <DropdownMenuContent className="w-[200px] bg-background/95 backdrop-blur-sm border-white/10 max-h-[250px] overflow-y-auto hide-scrollbar">
                         <DropdownMenuItem onClick={() => setSelectedAuthor('')}>
-                          All Authors
+                          All Users
                         </DropdownMenuItem>
                         {authors.map(author => (
                           <DropdownMenuItem key={author} onClick={() => setSelectedAuthor(author)}>
@@ -396,7 +396,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
           )}
           {viewMode==='chart'&&(
              <div className="glass-morphism rounded-xl p-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <CommitChart commits={filteredCommits} />
+              <CommitChart commits={commits} />
             </div>
           )}
           {viewMode==='Contributor List'&&(

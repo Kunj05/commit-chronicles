@@ -47,7 +47,7 @@ export const ForkList: React.FC<CommitTableProps> = ({ commits, repoUrl }) => {
   // Get unique authors for the dropdown
   const authors = Array.from(new Set(
     commits
-      .map((commit) => commit.author?.login) // Extract author login
+      .map((commit) => commit.commit.author.name) // Extract author login
       .filter((author) => author !== undefined) // Filter out undefined values
   ));
     

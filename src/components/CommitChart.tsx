@@ -93,7 +93,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
   const authors = useMemo(() => {
     const authorSet = new Set();
     commits.forEach((commit) => {
-      const author = commit.author?.login;
+      const author = commit.commit.author.name;
       if (author) {  // Only add valid (non-undefined) author logins
         authorSet.add(author);
       }
@@ -254,10 +254,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
                       <User className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[160px] bg-background/95 backdrop-blur-sm border-white/10">
-                    <DropdownMenuItem onClick={() => setSelectedAuthor('')}>
-                      All Authors
-                    </DropdownMenuItem>
+                  <DropdownMenuContent className="w-[160px] bg-background/95 backdrop-blur-sm border-white/10 max-h-[200px] overflow-y-auto hide-scrollbar">
                     {authors.map((author) => (
                       <DropdownMenuItem key={author} onClick={() => setSelectedAuthor(author)}>
                         {author}
