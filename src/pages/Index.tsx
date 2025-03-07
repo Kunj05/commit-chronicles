@@ -226,7 +226,7 @@ const Index = () => {
             <Input
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
-              placeholder="Enter GitHub repository URL (e.g. github.com/user/repo)"
+              placeholder="Enter GitHub repository URL (e.g. https://github.com/user/repo)"
               className="bg-background/95 border-white/10 mr-2"
             />
             <Button size="lg" onClick={handleFetchCommits}>
