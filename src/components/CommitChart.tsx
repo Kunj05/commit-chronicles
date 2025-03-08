@@ -1,5 +1,5 @@
 
-import React, { useMemo,useState } from 'react';
+import React, { useMemo,useState , useEffect} from 'react';
 import { Commit } from '../types';
 import { 
   ResponsiveContainer, 
@@ -47,6 +47,13 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
     }));
   }, [commits]);
   
+  useEffect(() => {
+    if (authorData.length > 0) {
+      setSelectedAuthor(authorData[0].name); // Set the first author as the initial state
+    }
+  }, [authorData]); 
+
+
   // Process data for commit activity by date
   const timelineData = useMemo(() => {
     const dateMap: Record<string, number> = {};

@@ -234,8 +234,21 @@ const Index = () => {
             </Button>
           </div>
         </div>
-
-        {commits.length > 0 || error || loading? (
+        
+        {loading && (  
+            <div className="rounded-xl mt-6 glass-morphism overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="p-8 space-y-4">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="table-shine space-y-2" style={{ animationDelay: `${0.1 * index}s` }}>
+                    <div className="h-6 bg-white/5 rounded w-3/4"></div>
+                    <div className="h-4 bg-white/5 rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+        )}
+  
+        {commits.length > 0 || error ? (
           <CommitTable commits={commits} loading={loading} error={error} repoUrl={repoUrl} />
         ) : (
           <></>

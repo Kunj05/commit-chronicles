@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useMemo } from 'react';
 import { Commit } from '../types';
-import { GitCommit, Clock, File, User, Calendar, Download, Search, BarChart, Table, Code2 } from 'lucide-react';
+import { GitCommit, Clock, File, User, Calendar, Download, Search, BarChart, Table, Code2 , X} from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
@@ -31,9 +31,18 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
 
 
   // Derive branches from commits
-  const branches = [...new Set(commits.map((commit) => commit.branch).filter(Boolean))] as string[];
+  const branches = useMemo(() => {
+    return [...new Set(commits.map((commit) => commit.branch).filter(Boolean))] as string[];
+  }, [commits]); 
 
-  // Filter commits based on search and other filters
+
+  useEffect(()=>{ 
+    if (!branches.includes("main")) {
+      setSelectedBranch("master")
+    } 
+  },[branches])
+
+// Filter commits based on search and other filters
   const filteredCommits = commits
     .filter((commit) => {
       const dateTime = new Date(commit.commit.author.date);
@@ -53,7 +62,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
     .sort((a, b) => new Date(b.commit.author.date).getTime() - new Date(a.commit.author.date).getTime());
 
   // Loading state with glass-morphism effect
-  if (loading && commits.length > 0) {
+  if (loading) {
     return (
       <div className="rounded-xl mt-6 glass-morphism overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
         <div className="p-8 space-y-4">
@@ -202,58 +211,76 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                   {/* Start Date Range Pickers */}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">Start Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left",
-                            !startDate && "text-muted-foreground"
-                          )}
-                        >
-                          <Calendar className="mr-2 h-4 w-4" />
-                          {startDate ? format(startDate, "PPP") : <span>Pick a Start date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-background/95 backdrop-blur-sm border-white/10" align="start">
-                        <CalendarComponent
-                          mode="single"
-                          selected={startDate}
-                          onSelect={setStartDate}
-                          initialFocus
-                          className="p-3 pointer-events-auto"
+                    <div className="flex items-center gap-2">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left",
+                              !startDate && "text-muted-foreground"
+                            )}
+                          >
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {startDate ? format(startDate, "PPP") : <span>Pick an Start date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-background/95 backdrop-blur-sm border-white/10" align="start">
+                          <CalendarComponent
+                            mode="single"
+                            selected={startDate}
+                            onSelect={setStartDate}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      {startDate && ( // Show the X icon only if a date is selected
+                        <X
+                          className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground text-red-600" 
+                          onClick={() => setStartDate(undefined)} // Clear the selected date
                         />
-                      </PopoverContent>
-                    </Popover>
+                      )}
+                    </div>
                   </div>
 
                   {/* End Date Range Pickers */}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">End Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left",
-                            !endDate && "text-muted-foreground"
-                          )}
-                        >
-                          <Calendar className="mr-2 h-4 w-4" />
-                          {endDate ? format(endDate, "PPP") : <span>Pick a End date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-background/95 backdrop-blur-sm border-white/10" align="start">
-                        <CalendarComponent
-                          mode="single"
-                          selected={endDate}
-                          onSelect={setEndDate}
-                          initialFocus
-                          className="p-3 pointer-events-auto"
+                    <div className="flex items-center gap-2">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left",
+                              !endDate && "text-muted-foreground"
+                            )}
+                          >
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {endDate ? format(endDate, "PPP") : <span>Pick an End date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-background/95 backdrop-blur-sm border-white/10" align="start">
+                          <CalendarComponent
+                            mode="single"
+                            selected={endDate}
+                            onSelect={setEndDate}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      {endDate && ( // Show the X icon only if a date is selected
+                        <X
+                          className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground text-red-600"
+                          onClick={() => setEndDate(undefined)} // Clear the selected date
                         />
-                      </PopoverContent>
-                    </Popover>
+                      )}
+                    </div>
                   </div>
+
+
                 </div>
 
                 <div className="flex justify-center items-center mt-4">
