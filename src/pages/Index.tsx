@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Header from "../components/Header";
 import CommitTable from "../components/CommitTable";
 import { Commit } from "../types";
@@ -12,18 +12,42 @@ const Index = () => {
   const [commits, setCommits] = useState<Commit[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [repoSuggestions, setRepoSuggestions] = useState([]);
+  const [selectedRepo, setSelectedRepo] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   // GitHub GraphQL endpoint and token
   const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN; // Replace with your PAT
   const ENDPOINT = "https://api.github.com/graphql";
 
-  // Parse the GitHub repository URL to extract owner and repo
-  const parseRepoUrl = (url: string): [string, string] => {
-    const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
-    if (match) return [match[1], match[2]];
-    return url.split("/").slice(-2) as [string, string];
-  };
+  useEffect(() => {
+    const fetchRepos = async () => {
+      if (!searchQuery) {
+        setRepoSuggestions([]);
+        setIsDropdownOpen(false);
+        return;
+      }
 
+      try {
+        const response = await fetch(
+          `https://api.github.com/search/repositories?q=${encodeURIComponent(
+            searchQuery
+          )}&per_page=5`
+        );
+        const data = await response.json();
+        setRepoSuggestions(data.items || []);
+        setIsDropdownOpen(true);
+      } catch (error) {
+        console.error('Error fetching repositories:', error);
+        setRepoSuggestions([]);
+      }
+    };
+
+    const debounce = setTimeout(fetchRepos, 300); // Debounce to limit API calls
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
   // Fetch all branches and their commits using GraphQL
   const fetchCommits = async (owner: string, repo: string): Promise<Commit[]> => {
     const cacheKey = `${owner}/${repo}`;
@@ -195,9 +219,15 @@ const Index = () => {
     return allCommits;
   };
 
+  const handleSelectRepo = (repo) => {
+    setSelectedRepo(repo);
+    setSearchQuery(repo.full_name); // Display the selected repo's full name
+    setIsDropdownOpen(false);
+  };
   // Handle fetching commits when the user clicks "Search"
   const handleFetchCommits = async () => {
-    if (!repoUrl) {
+    setRepoUrl(selectedRepo.full_name);
+    if (!selectedRepo || !repoUrl) {
       setError("Please enter a repository URL");
       return;
     }
@@ -220,15 +250,30 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-black">
       <div className="container px-4 py-7 mx-auto max-w-7xl">
         <Header />
-        <div className="glass-morphism rounded-xl p-6 space-y-4">
+        <div className="glass-morphism rounded-xl p-6 space-y-4 relative">
           <h2 className="text-xl font-semibold mb-2">GitHub Repository</h2>
           <div className="flex space-x-2 mt-8">
-            <Input
-              value={repoUrl}
-              onChange={(e) => setRepoUrl(e.target.value)}
-              placeholder="Enter GitHub repository URL (e.g. https://github.com/user/repo)"
-              className="bg-background/95 border-white/10 mr-2"
-            />
+            <div className="relative w-full">
+              <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search GitHub repositories (e.g., facebook/react)"
+                className="bg-background/95 border-white/10 mr-2 w-full"
+              />
+              {isDropdownOpen && repoSuggestions.length > 0 && (
+                <ul className="absolute z-10 w-full bg-background/95 border border-white/10 rounded-md mt-1 max-h-60 overflow-y-auto">
+                  {repoSuggestions.map((repo) => (
+                    <li
+                      key={repo.id}
+                      className="p-2 hover:bg-white/10 cursor-pointer"
+                      onClick={() => handleSelectRepo(repo)}
+                    >
+                      {repo.full_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <Button size="lg" onClick={handleFetchCommits}>
               Search
             </Button>
