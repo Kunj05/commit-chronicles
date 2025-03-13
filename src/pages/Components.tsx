@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Check, Code, Copy } from 'lucide-react';
@@ -12,7 +11,7 @@ import { toast } from 'sonner';
 import { ComponentDemo } from '@/components/ComponentDemo';
 import { Progress } from '@/components/ui/progress';
 import { Card } from '@/components/ui/card';
-
+import Header from '@/components/Header';
 // Mock data for demos
 const mockCommits = [
   {
@@ -118,8 +117,7 @@ const mockCommits = [
 const Components: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header />
-      
+    
       <main className="container mx-auto px-4 py-12">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-violet-600 text-transparent bg-clip-text">Component Gallery</h1>
@@ -143,7 +141,6 @@ const Components: React.FC = () => {
               description="Visualize commit history over time with this responsive bar chart."
               code={`import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// Place this component within a parent container with defined dimensions
 <ResponsiveContainer width="100%" height={400}>
   <BarChart
     data={timelineData}

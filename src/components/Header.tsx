@@ -2,7 +2,7 @@
 import React from 'react';
 import { GitBranch } from 'lucide-react';
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
     <header className="w-full animate-fade-in relative">
       {/* Warning notification */}

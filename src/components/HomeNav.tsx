@@ -3,7 +3,7 @@ import { GitBranch, Github, Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export const HomeNav = () => {
+const HomeNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   return (
@@ -102,3 +102,5 @@ export const HomeNav = () => {
     </nav>
   );
 };
+
+export default  HomeNav;
