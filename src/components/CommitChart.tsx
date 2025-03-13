@@ -1,5 +1,5 @@
 
-import React, { useMemo,useState , useEffect} from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Commit } from '../types';
 import { 
   ResponsiveContainer, 
@@ -22,22 +22,19 @@ import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { User } from 'lucide-react';
 
-
 interface CommitChartProps {
   commits: Commit[];
 }
 
-
 export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
-  const [selectedAuthor, setSelectedAuthor] = useState("");
-
+  const [selectedAuthor, setSelectedAuthor] = useState<string>("");
 
   // Process data for Author Commits chart
   const authorData = useMemo(() => {
     const authorCounts: Record<string, number> = {};
     
     commits.forEach(commit => {
-      const author = commit.author?.login;
+      const author = commit.author?.login || 'Unknown';
       authorCounts[author] = (authorCounts[author] || 0) + 1;
     });
     
@@ -52,7 +49,6 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
       setSelectedAuthor(authorData[0].name); // Set the first author as the initial state
     }
   }, [authorData]); 
-
 
   // Process data for commit activity by date
   const timelineData = useMemo(() => {
@@ -77,7 +73,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
   }, [commits]);
 
   const stackedData = useMemo(() => {
-    const authorDailyCommits = {};
+    const authorDailyCommits: Record<string, Record<string, number>> = {};
 
     commits.forEach((commit) => {
       const date = new Date(commit.commit.author.date);
@@ -98,7 +94,7 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
   }, [commits]);
 
   const authors = useMemo(() => {
-    const authorSet = new Set();
+    const authorSet = new Set<string>();
     commits.forEach((commit) => {
       const author = commit.commit.author.name;
       if (author) {  // Only add valid (non-undefined) author logins
@@ -118,14 +114,12 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
     return stackedData.reduce((total, entry) => total + (entry[selectedAuthor] || 0), 0);
   }, [selectedAuthor, stackedData]);
 
-
   const lineChartData = useMemo(() => {
     return timelineData.map(({ date, commits }) => ({
       date,
       commits,
     }));
   }, [timelineData]);
-  
   
   // Colors for pie chart
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#83a6ed'];
@@ -136,9 +130,9 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-medium">Commit Visualization</h3>
           <TabsList className="bg-background/10 p-1">
-            <TabsTrigger value="timeline" className='border mr-2  '>Timeline</TabsTrigger>
-            <TabsTrigger value="authors" className='border mr-2 '>Contributors</TabsTrigger>
-            <TabsTrigger value="activity-by-user" className='border mr-2 '>activity-by-user</TabsTrigger>
+            <TabsTrigger value="timeline" className='border mr-2'>Timeline</TabsTrigger>
+            <TabsTrigger value="authors" className='border mr-2'>Contributors</TabsTrigger>
+            <TabsTrigger value="activity-by-user" className='border mr-2'>activity-by-user</TabsTrigger>
             <TabsTrigger value="commit-frequency" className='border'>commit-frequency</TabsTrigger>
           </TabsList>
         </div>
@@ -280,7 +274,6 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
               )}
             </div>
 
-
           {/* Bar Chart */}
           {selectedAuthor && (
             <ResponsiveContainer width="100%" height="100%">
@@ -337,7 +330,6 @@ export const CommitChart: React.FC<CommitChartProps> = ({ commits }) => {
             </ResponsiveContainer>
           </div>
         </TabsContent>
-
       </Tabs>
     </div>
   );
