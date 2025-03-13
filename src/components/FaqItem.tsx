@@ -24,7 +24,7 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, delay = 0 }) => {
         {isOpen ? <ChevronUp className="ml-2 flex-shrink-0" /> : <ChevronDown className="ml-2 flex-shrink-0" />}
       </button>
       {isOpen && (
-        <div className="p-6 pt-0 border-t border-white/10">
+        <div className="p-6 pt-0 ">
           <p className="text-muted-foreground">{answer}</p>
         </div>
       )}
