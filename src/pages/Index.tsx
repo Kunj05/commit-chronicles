@@ -1,5 +1,5 @@
 "use client"
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import CommitTable from "../components/CommitTable";
 import { Commit } from "../types";
@@ -16,7 +16,6 @@ const Index = () => {
   const [repoSuggestions, setRepoSuggestions] = useState([]);
   const [selectedRepo, setSelectedRepo] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 
   // GitHub GraphQL endpoint and token
   const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN; // Replace with your PAT
@@ -48,7 +47,28 @@ const Index = () => {
     const debounce = setTimeout(fetchRepos, 300); // Debounce to limit API calls
     return () => clearTimeout(debounce);
   }, [searchQuery]);
-  // Fetch all branches and their commits using GraphQL
+
+  const parseRepoUrl = (url: string): [string, string] => {
+    // Handle format: username/repo
+    if (url.split('/').length === 2) {
+      const [owner, repo] = url.split('/');
+      return [owner, repo];
+    }
+    
+    // Handle full GitHub URLs
+    try {
+      const urlObj = new URL(url);
+      const pathParts = urlObj.pathname.split('/').filter(Boolean);
+      if (pathParts.length >= 2) {
+        return [pathParts[0], pathParts[1]];
+      }
+    } catch (e) {
+      // Not a valid URL
+    }
+    
+    throw new Error("Invalid GitHub repository URL format");
+  };
+
   const fetchCommits = async (owner: string, repo: string): Promise<Commit[]> => {
     const cacheKey = `${owner}/${repo}`;
 
@@ -224,7 +244,7 @@ const Index = () => {
     setSearchQuery(repo.full_name); // Display the selected repo's full name
     setIsDropdownOpen(false);
   };
-  // Handle fetching commits when the user clicks "Search"
+
   const handleFetchCommits = async () => {
     setRepoUrl(selectedRepo.full_name);
     if (!selectedRepo || !repoUrl) {
