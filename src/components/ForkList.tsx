@@ -59,7 +59,7 @@ export const ForkList: React.FC<CommitTableProps> = ({ commits, repoUrl }) => {
                 <h1 className="text-xl font-semibold">
                 Contributor List for{" "}
                 <a href={repoUrl} target="_blank" rel="noopener noreferrer">
-                    <u className="text-blue-700 text-3xl">{repoUrl.split('/').pop()}</u>
+                    <u className="text-blue-700 text-3xl">{repoUrl.split('/').pop()} </u> Repository
                 </a>
                 </h1>
                 <p>Below are the contributors inferred from the commits.</p>
@@ -118,7 +118,7 @@ export const ForkList: React.FC<CommitTableProps> = ({ commits, repoUrl }) => {
                 (fork) => !selectedAuthor || fork.authorName === selectedAuthor
               )
               .map((fork) => (
-                <div key={fork.authorName} className="p-4 border border-gray-200 rounded-md">
+                <div key={fork.authorName} className="p-4 border border-input rounded-md">
                   <div className="flex items-center space-x-4">
                     <img
                       src={fork.avatarUrl}

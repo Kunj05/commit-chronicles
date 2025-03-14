@@ -27,7 +27,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
   const [searchByMessage, setSearchByMessage] = useState<boolean>(true);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [viewMode, setViewMode] = useState<'table' | 'chart' | 'Contributor List' |'Talk To ai'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'chart' | 'Contributor List' |'Chat with Ai'>('table');
   const [selectedBranch, setSelectedBranch] = useState<string>('main'); 
 
 
@@ -155,13 +155,13 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                 Contributor List
               </Button>
               <Button
-                variant={viewMode === 'Talk To ai' ? 'default' : 'outline'}
+                variant={viewMode === 'Chat with Ai' ? 'default' : 'outline'}
                 size="lg"
-                onClick={() => setViewMode('Talk To ai')}
+                onClick={() => setViewMode('Chat with Ai')}
                 className="flex items-center gap-1"
               >
                 <BarChart className="h-4 w-4" />
-                Talk To ai
+                Chat with Ai
               </Button>
 
             </div>
@@ -438,7 +438,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                 />
               </div>
           )}
-          {viewMode==='Talk To ai'&&(
+          {viewMode==='Chat with Ai'&&(
               <div className="glass-morphism rounded-xl p-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <AiChat 
                 
