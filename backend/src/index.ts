@@ -15,7 +15,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     const response = await axios.post(
       'https://api.openai.com/v1/engines/davinci-codex/completions',
       {
-        prompt: message,
+        prompt: `You are an AI assistant that helps users understand commits, use the repository, and answer any questions they have about their project. User: ${message}`,
         max_tokens: 150,
       },
       {
