@@ -21,11 +21,8 @@ const HomeNav = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 items-center">
-            <a href="/" className="text-gray-300 hover:text-white transition-colors">
-              Home
-            </a>
             <a href="/explore" className="text-gray-300 hover:text-white transition-colors">
-              Explore
+              Analysis
             </a>
             <a href="/components" className="text-gray-300 hover:text-white transition-colors">
               Components
@@ -61,19 +58,13 @@ const HomeNav = () => {
             className="md:hidden bg-background/80 backdrop-blur-md border-b border-white/10"
           >
             <div className="container mx-auto px-4 py-4 space-y-3">
-              <a 
-                href="/" 
-                className="block text-gray-300 hover:text-white transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </a>
+              
               <a 
                 href="/explore" 
                 className="block text-gray-300 hover:text-white transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Explore
+                Insights
               </a>
               <a 
                 href="/components" 

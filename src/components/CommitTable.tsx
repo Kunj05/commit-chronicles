@@ -12,6 +12,7 @@ import { Switch } from './ui/switch';
 import { CommitChart } from './CommitChart';
 import { toast } from "sonner";
 import { ForkList } from './ForkList'; 
+import {AiChat} from './AiChat'
 
 interface CommitTableProps {
   commits: Commit[];
@@ -26,7 +27,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
   const [searchByMessage, setSearchByMessage] = useState<boolean>(true);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [viewMode, setViewMode] = useState<'table' | 'chart' | 'Contributor List'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'chart' | 'Contributor List' |'Talk To ai'>('table');
   const [selectedBranch, setSelectedBranch] = useState<string>('main'); 
 
 
@@ -150,8 +151,17 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                 onClick={() => setViewMode('Contributor List')}
                 className="flex items-center gap-1"
               >
-                <BarChart className="h-4 w-4" />
+                <User className="h-4 w-4" />
                 Contributor List
+              </Button>
+              <Button
+                variant={viewMode === 'Talk To ai' ? 'default' : 'outline'}
+                size="lg"
+                onClick={() => setViewMode('Talk To ai')}
+                className="flex items-center gap-1"
+              >
+                <BarChart className="h-4 w-4" />
+                Talk To ai
               </Button>
 
             </div>
@@ -316,13 +326,7 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                         <Button onClick={handleExportCsv}>
                           <Download className="h-4 w-4" /> Export CSV
                         </Button>
-                        <Button onClick={() => {
-                          const embedCode = `<iframe src="https://commit-chronicles-sigma.vercel.app/embed?repo=${repoUrl}" width="100%" height="400" frameborder="0"></iframe>`;
-                          navigator.clipboard.writeText(embedCode);
-                          
-                        }}>
-                          <Code2 className="h-4 w-4" /> Embed Code
-                        </Button>
+                       
                       </div>
                     </div>
                   </div>
@@ -431,6 +435,13 @@ const CommitTable: React.FC<CommitTableProps> = ({ commits , loading, error, rep
                 <ForkList 
                 commits={commits} 
                 repoUrl={repoUrl}
+                />
+              </div>
+          )}
+          {viewMode==='Talk To ai'&&(
+              <div className="glass-morphism rounded-xl p-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <AiChat 
+                
                 />
               </div>
           )}

@@ -247,7 +247,7 @@ const Index = () => {
 
   const handleFetchCommits = async () => {
     setRepoUrl(selectedRepo.full_name);
-    if (!selectedRepo || !repoUrl) {
+    if (!selectedRepo ) {
       setError("Please enter a repository URL");
       return;
     }
@@ -277,7 +277,7 @@ const Index = () => {
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search GitHub repositories (e.g., facebook/react)"
+                placeholder="Search Your GitHub repositories (e.g., Username/repo-name)"
                 className="bg-background/95 border-white/10 mr-2 w-full"
               />
               {isDropdownOpen && repoSuggestions.length > 0 && (

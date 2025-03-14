@@ -69,7 +69,7 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <Link to="/explore">
               <Button size="lg" className="group">
-                Fetch Commits
+                Get Insights 
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
